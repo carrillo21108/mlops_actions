@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ml-pipeline-titanic"
+version = "0.1.0"
+description = "Pipeline de sklearn para Titanic (ejemplo)."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Brian Carrillo" }]
+dependencies = [
+  "pandas>=2.0",
+  "scikit-learn>=1.4"
+]
+
+[project.urls]
+Homepage = "https://github.com/carrillo21108/mlops_actions"
