@@ -1,0 +1,53 @@
+name: CI & Publish (Python on Release)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'   # publica al pushear un tag tipo v0.1.0
+
+permissions:
+  contents: write    # necesario para crear la Release y subir assets
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+
+      - name: Build wheel & sdist
+        run: python -m build
+
+      - name: Smoke test (import)
+        run: |
+          python - << 'PY'
+          import sys, pathlib
+          whls = list(pathlib.Path("dist").glob("*.whl"))
+          print("Found:", whls)
+          PY
+          
+      # Nota: Los artifacts de Actions se borran por defecto a los 90 días. :contentReference[oaicite:1]{index=1}
+      - name: Upload dist/ as Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Create GitHub Release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
