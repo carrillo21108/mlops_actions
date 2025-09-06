@@ -16,3 +16,9 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/carrillo21108/mlops_actions"
+
+[tool.hatch.build]
+include = ["requirements.txt"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"requirements.txt" = "requirements.txt"
