@@ -11,14 +11,15 @@ requires-python = ">=3.9"
 authors = [{ name = "Brian Carrillo" }]
 dependencies = [
   "pandas>=2.0",
-  "scikit-learn>=1.4"
+  "scikit-learn>=1.4",
+  "joblib>=1.3"
 ]
 
 [project.urls]
 Homepage = "https://github.com/carrillo21108/mlops_actions"
 
-[tool.hatch.build]
-include = ["requirements.txt"]
+[project.scripts]
+titanic-pipeline = "ml_pipeline_titanic.cli:main"
 
-[tool.hatch.build.targets.wheel.force-include]
-"requirements.txt" = "requirements.txt"
+[tool.hatch.build.targets.wheel]
+packages = ["src/ml_pipeline_titanic"]

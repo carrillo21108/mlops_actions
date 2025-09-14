@@ -36,7 +36,8 @@ def train_pipeline(csv_url):
     df = pd.read_csv(csv_url)
     df = df.dropna(thresh=len(df.columns) - 2)
 
-    X = df[['Age', 'Fare', 'Sex', 'Embarked']]
+    # Asegurarse de usar todas las columnas que la pipeline espera
+    X = df[['Age', 'Fare', 'SibSp', 'Parch', 'Pclass', 'Sex', 'Embarked']]
     y = df['Survived']
 
     X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, random_state=42)
